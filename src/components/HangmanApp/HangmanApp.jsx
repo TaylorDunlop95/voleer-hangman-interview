@@ -9,7 +9,13 @@ import { WordRow } from '../WordRow';
 class HangmanApp extends Component {
   constructor(props) {
     super(props);
-    this.state = { incorrectGuessCount: 0, guessWord: 'voleer', lettersGuessed: ['e'] };
+    this.state = {
+      incorrectGuessCount: 0,
+      guessWord: 'voleer',
+      lettersGuessed: [],
+    };
+
+    this.handleGuess = this.handleGuess.bind(this);
   }
 
   handleInc = () => {
@@ -31,6 +37,29 @@ class HangmanApp extends Component {
     }
   };
 
+  handleGuess(event) {
+    event.preventDefault();
+
+    let letterGuessed = document.getElementById('user-input').value;
+    let guessedLetters = this.state.lettersGuessed;
+    let wordToGuess = this.state.guessWord;
+
+    if (!guessedLetters.includes(letterGuessed)) {
+      if (wordToGuess.includes(letterGuessed)) {
+        this.addGuessedLetter(letterGuessed);
+      } else {
+        this.addGuessedLetter(letterGuessed);
+        this.handleInc();
+      }
+    }
+  }
+
+  addGuessedLetter = letterGuessed => {
+    let guessedLetters = this.state.lettersGuessed;
+    guessedLetters.push(letterGuessed);
+    this.setState({ lettersGuessed: guessedLetters });
+  };
+
   getWord = async () => {
     await axios({
       method: 'GET',
@@ -49,7 +78,7 @@ class HangmanApp extends Component {
         console.log(wordToGuess);
         if (!/['-/ ]/.test(wordToGuess)) {
           console.log(response);
-          this.setState({ guessWord: wordToGuess, incorrectGuessCount: 0 });
+          this.setState({ guessWord: wordToGuess, incorrectGuessCount: 0, lettersGuessed: [] });
         } else {
           this.getWord();
         }
@@ -68,6 +97,14 @@ class HangmanApp extends Component {
           wordToGuess={this.state.guessWord}
           lettersGuessed={this.state.lettersGuessed}
         ></WordRow>
+        <div>{this.state.lettersGuessed}</div>
+        <form onSubmit={this.handleGuess}>
+          <label>
+            Name:
+            <input type="text" id="user-input" />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
         <button onClick={() => this.handleInc()}>Increment</button>
         <button onClick={() => this.handleDec()}>Decrement</button>
         <button onClick={() => this.getWord()}>New Word</button>
