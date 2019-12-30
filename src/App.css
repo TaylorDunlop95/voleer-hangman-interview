@@ -1,7 +1,9 @@
 .App {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   overflow: hidden;
-  padding: 16px;
+  padding: 10px;
 }
 
 .App .container {

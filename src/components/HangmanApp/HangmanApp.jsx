@@ -5,6 +5,7 @@ import { WORD_API_KEY } from '../../api-keys';
 
 import { Hangman } from '../Hangman';
 import { WordRow } from '../WordRow';
+import { StatBox } from '../StatBox';
 import './HangmanApp.css';
 
 class HangmanApp extends Component {
@@ -98,8 +99,11 @@ class HangmanApp extends Component {
     return (
       <div>
         <Hangman incorrectGuessCount={this.state.incorrectGuessCount}></Hangman>
-        <p>{this.state.incorrectGuessCount}/10</p>
-        <div>{this.state.lettersGuessed}</div>
+        <StatBox
+          lettersGuessed={this.state.lettersGuessed}
+          incorrectGuessCount={this.state.incorrectGuessCount}
+        ></StatBox>
+
         <WordRow
           wordToGuess={this.state.guessWord}
           lettersGuessed={this.state.lettersGuessed}
