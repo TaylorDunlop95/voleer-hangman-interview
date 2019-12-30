@@ -1,14 +1,10 @@
-.LetterBox {
+.letter-box {
   margin: 10px;
   padding: 10px;
   width: 50px;
   height: 50px;
 
   border-bottom: black 3px solid;
-}
-
-.hidden {
-  font-size: 0;
 }
 
 p {

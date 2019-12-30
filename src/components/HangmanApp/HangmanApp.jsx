@@ -5,6 +5,7 @@ import { WORD_API_KEY } from '../../api-keys';
 
 import { Hangman } from '../Hangman';
 import { WordRow } from '../WordRow';
+import './HangmanApp.css';
 
 class HangmanApp extends Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class HangmanApp extends Component {
   handleGuess(event) {
     event.preventDefault();
 
-    let letterGuessed = document.getElementById('user-input').value;
+    let letterGuessed = document.getElementById('user-input').value.toLowerCase();
     let guessedLetters = this.state.lettersGuessed;
     let wordToGuess = this.state.guessWord;
 
@@ -52,7 +53,12 @@ class HangmanApp extends Component {
         this.handleInc();
       }
     }
+    this.resetForm();
   }
+
+  resetForm = () => {
+    document.getElementById('letter-guess-form').reset();
+  };
 
   addGuessedLetter = letterGuessed => {
     let guessedLetters = this.state.lettersGuessed;
@@ -93,21 +99,22 @@ class HangmanApp extends Component {
       <div>
         <Hangman incorrectGuessCount={this.state.incorrectGuessCount}></Hangman>
         <p>{this.state.incorrectGuessCount}/10</p>
+        <div>{this.state.lettersGuessed}</div>
         <WordRow
           wordToGuess={this.state.guessWord}
           lettersGuessed={this.state.lettersGuessed}
         ></WordRow>
-        <div>{this.state.lettersGuessed}</div>
-        <form onSubmit={this.handleGuess}>
-          <label>
-            Name:
-            <input type="text" id="user-input" />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        <button onClick={() => this.handleInc()}>Increment</button>
-        <button onClick={() => this.handleDec()}>Decrement</button>
-        <button onClick={() => this.getWord()}>New Word</button>
+        <div>
+          <form className="user-controls" onSubmit={this.handleGuess} id="letter-guess-form">
+            <input className="user-input" type="text" id="user-input" maxLength="1" autoFocus />
+            <div className="option-row">
+              <button type="submit">Submit</button>
+              <button type="button" onClick={() => this.getWord()}>
+                New Word
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

@@ -4,7 +4,7 @@ import './LetterBox.css';
 
 export const LetterBox = ({ letter, hidden }) => {
   return (
-    <div className="LetterBox">
+    <div className="letter-box">
       <p>{hidden ? ' ' : letter}</p>
     </div>
   );
