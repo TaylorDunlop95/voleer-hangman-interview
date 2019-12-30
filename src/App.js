@@ -1,5 +1,5 @@
 import React from 'react';
-import { Hangman } from './components';
+import HangmanApp from './components/HangmanApp/HangmanApp';
 
 import './App.css';
 
@@ -8,7 +8,7 @@ const App = () => {
     <div className="App">
       <div className="container">
         <h1>React Hangman</h1>
-        <Hangman incorrectGuessCount={10}></Hangman>
+        <HangmanApp></HangmanApp>
       </div>
     </div>
   );
