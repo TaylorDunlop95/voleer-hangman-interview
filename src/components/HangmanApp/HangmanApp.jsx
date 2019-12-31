@@ -14,12 +14,17 @@ class HangmanApp extends Component {
     this.state = {
       incorrectGuessCount: 0,
       guessWord: 'voleer',
+      guessWordKey: [],
       lettersGuessed: [],
+      lettersGuessedCorrect: [],
     };
 
     this.handleGuess = this.handleGuess.bind(this);
   }
 
+  /**
+   * For incrementing the incorrect guess counter.
+   */
   handleInc = () => {
     let newCount = this.state.incorrectGuessCount + 1;
 
@@ -30,6 +35,9 @@ class HangmanApp extends Component {
     }
   };
 
+  /**
+   * For decrementing the incorrect guess counter.
+   */
   handleDec = () => {
     let newCount = this.state.incorrectGuessCount - 1;
     if (newCount < 0) {
@@ -39,6 +47,9 @@ class HangmanApp extends Component {
     }
   };
 
+  /**
+   * Run onSubmit
+   */
   handleGuess(event) {
     event.preventDefault();
 
@@ -57,6 +68,19 @@ class HangmanApp extends Component {
     this.resetForm();
   }
 
+  /**
+   * For resetting the state of the game.
+   */
+  handleReset = () => {
+    this.setState({
+      incorrectGuessCount: 0,
+      guessWord: 'voleer',
+      guessWordKey: [],
+      lettersGuessed: [],
+      lettersGuessedCorrect: [],
+    });
+  };
+
   resetForm = () => {
     document.getElementById('letter-guess-form').reset();
   };
@@ -67,6 +91,13 @@ class HangmanApp extends Component {
     this.setState({ lettersGuessed: guessedLetters });
   };
 
+  /**
+   * Utilizing the wordsAPI for the collection of a random word.
+   * Will continue to GET on the /random endpoint until a word
+   * with -just- standard letter characters is returned. No space, no apostrophe, no hyphen.
+   *
+   * i.e. "coke-plate" is invalid, "opacity" is valid.
+   */
   getWord = async () => {
     await axios({
       method: 'GET',
@@ -85,7 +116,8 @@ class HangmanApp extends Component {
         console.log(wordToGuess);
         if (!/['-/ ]/.test(wordToGuess)) {
           console.log(response);
-          this.setState({ guessWord: wordToGuess, incorrectGuessCount: 0, lettersGuessed: [] });
+          this.handleReset();
+          this.setState({ guessWord: wordToGuess });
         } else {
           this.getWord();
         }
