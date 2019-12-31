@@ -1,0 +1,11 @@
+.endgame-view-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.endgame-view-container h1 {
+  margin: 0;
+}
